@@ -1,37 +1,53 @@
 class TipAPI {
-  static #tipAmount: number = 0;
-  static #total: number = 0;
-  static #tipAmountSubscribers = new Set();
-  static #totalSubscribers = new Set();
+  static #bill: number = 0;
+  static #tip: number = 0;
+  static #people: number = 0;
+  static #billSubscribers = new Set();
+  static #tipSubscribers = new Set();
+  static #peopleSubscribers = new Set();
 
-  static get tipAmount(): number {
-    return this.#tipAmount;
+  static get bill(): number {
+    return this.#bill;
   }
 
-  static set tipAmount(newTipAmount: number) {
-    this.#tipAmount = newTipAmount;
-    this.dispatch("tipAmount");
+  static set bill(newBill: number) {
+    this.#bill = newBill;
+    this.dispatch("bill");
   }
 
-  static get total(): number {
-    return this.#total;
+  static get tip(): number {
+    return this.#tip;
   }
 
-  static set total(newTotal: number) {
-    this.#total = newTotal;
-    this.dispatch("total");
+  static set tip(newTip: number) {
+    this.#tip = newTip;
+    this.dispatch("tip");
+  }
+
+  static get people(): number {
+    return this.#people;
+  }
+
+  static set people(newPeople: number) {
+    this.#people = newPeople;
+    this.dispatch("people");
   }
 
   static dispatch(propertyName: string) {
     switch (propertyName) {
-      case "tipAmount":
-        this.#tipAmountSubscribers.forEach((tipAmountSubscriber: any) => {
-          tipAmountSubscriber.tipAmount = this.tipAmount;
+      case "bill":
+        this.#billSubscribers.forEach((billSubscriber: any) => {
+          billSubscriber.tipAmount = this.bill;
         });
         break;
-      case "total":
-        this.#totalSubscribers.forEach((totalSubscriber: any) => {
-          totalSubscriber.tipAmount = this.total;
+      case "tip":
+        this.#tipSubscribers.forEach((tipSubscriber: any) => {
+          tipSubscriber.tipAmount = this.tip;
+        });
+        break;
+      case "people":
+        this.#peopleSubscribers.forEach((peopleSubscriber: any) => {
+          peopleSubscriber.tipAmount = this.people;
         });
         break;
       default:
@@ -41,11 +57,14 @@ class TipAPI {
 
   static subscribe(propertyName: string, element: any) {
     switch (propertyName) {
-      case "tipAmount":
-        this.#tipAmountSubscribers.add(element);
+      case "bill":
+        this.#billSubscribers.add(element);
         break;
-      case "total":
-        this.#totalSubscribers.add(element);
+      case "tip":
+        this.#tipSubscribers.add(element);
+        break;
+      case "people":
+        this.#peopleSubscribers.add(element);
         break;
       default:
         throw new Error("The property name is not valid");
@@ -54,20 +73,18 @@ class TipAPI {
 
   static unsubscribe(propertyName: string, element: any) {
     switch (propertyName) {
-      case "tipAmount":
-        this.#tipAmountSubscribers.delete(element);
+      case "bill":
+        this.#billSubscribers.delete(element);
         break;
-      case "total":
-        this.#totalSubscribers.delete(element);
+      case "tip":
+        this.#tipSubscribers.delete(element);
+        break;
+      case "people":
+        this.#peopleSubscribers.delete(element);
         break;
       default:
         throw new Error("The property name is not valid");
     }
-  }
-
-  static calculateTip(bill: number, tip: number, people: number) {
-    this.tipAmount = (bill * tip) / people;
-    this.total = ((bill * tip) + bill) / people;
   }
 }
 

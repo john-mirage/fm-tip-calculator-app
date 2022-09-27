@@ -17,6 +17,11 @@ class WebDisplay extends HTMLElement {
       this.#initialMount = false;
     }
   }
+
+  calculateTip(bill: number, tip: number, people: number) {
+    this.tipAmount = (bill * tip) / people;
+    this.total = ((bill * tip) + bill) / people;
+  }
 }
 
 export default WebDisplay;
