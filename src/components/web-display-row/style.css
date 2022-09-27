@@ -35,3 +35,9 @@
     align-items: center;
   }
 }
+
+@media screen and (min-width: 968px) {
+  .webDisplayRow__value {
+    font-size: 3rem; /* 48px */
+  }
+}
