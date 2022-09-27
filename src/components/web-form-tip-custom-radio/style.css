@@ -3,6 +3,7 @@
 }
 
 .webFormTipCustomRadio__label {
+  display: block;
   width: 100%;
   height: 3rem; /* 48px */
 }
@@ -42,4 +43,11 @@
 
 .webFormTipCustomRadio__input:focus-visible {
   outline: 0.125rem solid var(--color-strong-cyan); /* 1px */
+}
+
+@media screen and (min-width: 968px) {
+  .webFormTipCustomRadio__input {
+    padding-left: 0.875rem; /* 12px */
+    padding-right: 0.875rem; /* 12px */
+  }
 }

@@ -12,6 +12,18 @@
 
 .webFormTip__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 1rem; /* 16px */
+}
+
+@media screen and (min-width: 375px) {
+  .webFormTip__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 968px) {
+  .webFormTip__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

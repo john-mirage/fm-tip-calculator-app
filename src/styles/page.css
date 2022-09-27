@@ -71,5 +71,6 @@
 
   .page__app {
     max-width: 57.5rem; /* 920px */
+    padding: 2rem 2rem 2rem 3rem; /* 32px 32px 32px 48px */
   }
 }

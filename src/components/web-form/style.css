@@ -1,0 +1,10 @@
+.webForm {
+  display: block;
+}
+
+@media screen and (min-width: 968px) {
+  .webForm {
+    margin-right: 3rem; /* 48px */
+    flex: 1;
+  }
+}
