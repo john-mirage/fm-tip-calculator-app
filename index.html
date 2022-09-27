@@ -57,44 +57,44 @@
   <!-- template | web app -->
   <template id="template-web-app">
     <main class="webApp__container">
-      <web-form data-name="web-form"></web-form>
-      <web-display data-name="web-display"></web-display>
+      <web-form data-js="web-form"></web-form>
+      <web-display data-js="web-display"></web-display>
     </main>
   </template>
 
   <!-- template | web form -->
   <template id="template-web-form">
     <form class="webForm__form">
-      <web-text-input data-name="bill" data-icon="dollar" data-label="Bill"></web-text-input>
+      <web-text-input data-js="bill"></web-text-input>
       <div class="webForm__radioGroup">
         <h2 class="webForm__radioGroupTitle">Select Tip %</h2>
         <div class="webForm__radioGroupGrid">
-          <web-radio-input data-name="radio" data-value="5"></web-radio-input>
-          <web-radio-input data-name="radio" data-value="10"></web-radio-input>
-          <web-radio-input data-name="radio" data-value="15"></web-radio-input>
-          <web-radio-input data-name="radio" data-value="25"></web-radio-input>
-          <web-radio-input data-name="radio" data-value="50"></web-radio-input>
-          <web-custom-radio-input data-name="custom-radio"></web-custom-radio-input>
+          <web-radio-input data-js="radio" data-value="5"></web-radio-input>
+          <web-radio-input data-js="radio" data-value="10"></web-radio-input>
+          <web-radio-input data-js="radio" data-value="15"></web-radio-input>
+          <web-radio-input data-js="radio" data-value="25"></web-radio-input>
+          <web-radio-input data-js="radio" data-value="50"></web-radio-input>
+          <web-custom-radio-input data-js="custom-radio"></web-custom-radio-input>
         </div>
       </div>
-      <web-text-input data-name="people" data-icon="person" data-label="Number of People"></web-text-input>
+      <web-text-input data-js="people"></web-text-input>
     </form>
   </template>
 
   <!-- template | web text input -->
   <template id="template-web-text-input">
-    <h2 class="webTextInput__title" data-name="title"></h2>
+    <h2 class="webTextInput__title" data-js="title"></h2>
     <label class="webTextInput__label">
-      <span class="webTextInput__labelValue" data-name="label"></span>
-      <input class="webTextInput__input" type="text" placeholder="0" data-name="input">
+      <span class="webTextInput__labelValue" data-js="label"></span>
+      <input class="webTextInput__input" type="text" placeholder="0" data-js="input">
     </label>
   </template>
 
   <!-- template | web radio input -->
   <template id="template-web-radio-input">
     <label class="webRadioInput__label">
-      <span class="webRadioInput__labelValue" data-name="label"></span>
-      <input class="webRadioInput__input" type="radio" name="tip" data-name="input">
+      <span class="webRadioInput__labelValue" data-js="label"></span>
+      <input class="webRadioInput__input" type="radio" name="tip" data-js="input">
     </label>
   </template>
 
@@ -102,24 +102,24 @@
   <template id="template-web-custom-radio-input">
     <label class="webCustomRadioInput__label">
       <span class="webCustomRadioInput__labelValue">Custom tip</span>
-      <input class="webCustomRadioInput__input" type="text" placeholder="custom" data-name="input">
+      <input class="webCustomRadioInput__input" type="text" name="custom-type" placeholder="custom" data-js="input">
     </label>
   </template>
 
   <!-- template | web display -->
   <template id="template-web-display">
-    <web-display-row data-name="tip-amount" data-title="Tip Amount" data-value="0"></web-display-row>
-    <web-display-row data-name="total" data-title="Total" data-value="0"></web-display-row>
-    <button class="webDisplay__resetButton" data-name="button">reset</button>
+    <web-display-row data-js="tip-amount"></web-display-row>
+    <web-display-row data-js="total"></web-display-row>
+    <button class="webDisplay__resetButton" data-js="button">reset</button>
   </template>
 
   <!-- template | web display row -->
   <template id="template-web-display-row">
     <div class="webDisplayRow__column">
-      <h3 class="webDisplayRow__title" data-name="title"></h3>
+      <h3 class="webDisplayRow__title" data-js="title"></h3>
       <p class="webDisplayRow__subtitle">/ person</p>
     </div>
-    <p class="webDisplayRow__value" data-name="value"></p>
+    <p class="webDisplayRow__value" data-js="value"></p>
   </template>
 
   <!-- module -->

@@ -17,6 +17,7 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@api/*": ["src/api/*"],
       "@components/*": ["src/components/*"],
       "@images/*": ["src/images/*"],
       "@styles/*": ["src/styles/*"],
