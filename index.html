@@ -57,8 +57,8 @@
   <!-- template | web app -->
   <template id="template-web-app">
     <main class="webApp__container">
-      <web-form data-js="web-form"></web-form>
-      <web-display data-js="web-display"></web-display>
+      <web-form></web-form>
+      <web-display></web-display>
     </main>
   </template>
 
@@ -66,17 +66,7 @@
   <template id="template-web-form">
     <form class="webForm__form">
       <web-text-input data-js="bill"></web-text-input>
-      <div class="webForm__radioGroup">
-        <h2 class="webForm__radioGroupTitle">Select Tip %</h2>
-        <div class="webForm__radioGroupGrid">
-          <web-radio-input data-js="radio" data-value="5"></web-radio-input>
-          <web-radio-input data-js="radio" data-value="10"></web-radio-input>
-          <web-radio-input data-js="radio" data-value="15"></web-radio-input>
-          <web-radio-input data-js="radio" data-value="25"></web-radio-input>
-          <web-radio-input data-js="radio" data-value="50"></web-radio-input>
-          <web-custom-radio-input data-js="custom-radio"></web-custom-radio-input>
-        </div>
-      </div>
+      <web-radio-group data-js="tip"></web-radio-group>
       <web-text-input data-js="people"></web-text-input>
     </form>
   </template>
@@ -88,6 +78,19 @@
       <span class="webTextInput__labelValue" data-js="label"></span>
       <input class="webTextInput__input" type="text" placeholder="0" data-js="input">
     </label>
+  </template>
+
+  <!-- template | web radio group -->
+  <template id="template-web-radio-group">
+    <h2 class="webForm__radioGroupTitle">Select Tip %</h2>
+    <div class="webForm__radioGroupGrid">
+      <web-radio-input data-js="radio" data-value="5"></web-radio-input>
+      <web-radio-input data-js="radio" data-value="10"></web-radio-input>
+      <web-radio-input data-js="radio" data-value="15"></web-radio-input>
+      <web-radio-input data-js="radio" data-value="25"></web-radio-input>
+      <web-radio-input data-js="radio" data-value="50"></web-radio-input>
+      <web-custom-radio-input data-js="custom-radio"></web-custom-radio-input>
+    </div>
   </template>
 
   <!-- template | web radio input -->

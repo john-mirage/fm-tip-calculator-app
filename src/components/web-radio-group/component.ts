@@ -1,22 +1,22 @@
 import "./style.css";
 
-class WebApp extends HTMLElement {
+class WebRadioGroup extends HTMLElement {
   #initialMount = true;
   #templateFragment: DocumentFragment;
   
   constructor() {
     super();
-    const template = <HTMLTemplateElement>document.getElementById("template-web-app");
+    const template = <HTMLTemplateElement>document.getElementById("template-web-radio-group");
     this.#templateFragment = <DocumentFragment>template.content.cloneNode(true);
   }
 
   connectedCallback() {
     if (this.#initialMount) {
-      this.classList.add("webApp");
+      this.classList.add("webRadioGroup");
       this.append(this.#templateFragment);
       this.#initialMount = false;
     }
   }
 }
 
-export default WebApp;
+export default WebRadioGroup;
