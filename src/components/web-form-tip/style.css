@@ -1,0 +1,17 @@
+.webFormTip {
+  margin-bottom: 2rem; /* 32px */
+  display: block;
+}
+
+.webFormTip__title {
+  margin-bottom: 1rem; /* 16px */
+  font-size: 1rem; /* 16px */
+  font-weight: 700;
+  color: var(--color-very-dark-cyan);
+}
+
+.webFormTip__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem; /* 16px */
+}

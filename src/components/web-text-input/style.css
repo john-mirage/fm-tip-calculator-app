@@ -1,0 +1,63 @@
+.webTextInput {
+  margin-bottom: 2rem; /* 32px */
+  display: block;
+}
+
+.webTextInput__title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.webTextInput__label {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.webTextInput__labelValue {
+  margin-bottom: 0.375rem; /* 6px */
+  display: block;
+  font-size: 1rem; /* 16px */
+  font-weight: 700;
+  color: var(--color-very-dark-cyan);
+}
+
+.webTextInput__input {
+  display: block;
+  width: 100%;
+  height: 3rem; /* 48px */
+  padding-left: 3rem; /* 48px */
+  padding-right: 1rem; /* 16px */
+  border: none;
+  border-radius: 0.375rem; /* 6px */
+  background-color: var(--color-light-grayish-cyan-alt);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.08);
+  text-align: right;
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+  color: var(--color-very-dark-cyan);
+}
+
+.webTextInput__input::placeholder {
+  color: var(--color-dark-grayish-cyan-alt);
+}
+
+.webTextInput__input:focus-visible {
+  outline: 0.125rem solid var(--color-strong-cyan); /* 1px */
+}
+
+.webTextInput__icon {
+  position: absolute;
+  bottom: 1rem; /* 16px */
+  left: 1rem; /* 16px */
+  width: 1rem; /* 16px */
+  height: 1rem; /* 16px */
+  color: var(--color-dark-grayish-cyan-alt);
+}
