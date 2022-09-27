@@ -1,34 +1,34 @@
 class TipAPI {
-  static #bill: number = 0;
-  static #tip: number = 0;
-  static #people: number = 0;
   static #billSubscribers = new Set();
   static #tipSubscribers = new Set();
   static #peopleSubscribers = new Set();
+  static #bill?: number;
+  static #tip?: number;
+  static #people?: number;
 
-  static get bill(): number {
+  static get bill(): number | undefined {
     return this.#bill;
   }
 
-  static set bill(newBill: number) {
+  static set bill(newBill: number | undefined) {
     this.#bill = newBill;
     this.dispatch("bill");
   }
 
-  static get tip(): number {
+  static get tip(): number | undefined {
     return this.#tip;
   }
 
-  static set tip(newTip: number) {
+  static set tip(newTip: number | undefined) {
     this.#tip = newTip;
     this.dispatch("tip");
   }
 
-  static get people(): number {
+  static get people(): number | undefined {
     return this.#people;
   }
 
-  static set people(newPeople: number) {
+  static set people(newPeople: number | undefined) {
     this.#people = newPeople;
     this.dispatch("people");
   }
