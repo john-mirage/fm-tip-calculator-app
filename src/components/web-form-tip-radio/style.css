@@ -49,6 +49,10 @@
   cursor: pointer;
 }
 
+.webFormTipRadio__input:checked {
+  cursor: default;
+}
+
 .webFormTipRadio__input:checked ~ .webFormTipRadio__background {
   background-color: var(--color-strong-cyan);
 }

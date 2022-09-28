@@ -37,17 +37,17 @@ class TipAPI {
     switch (propertyName) {
       case "bill":
         this.#billSubscribers.forEach((billSubscriber: any) => {
-          billSubscriber.tipAmount = this.bill;
+          billSubscriber.bill = this.bill;
         });
         break;
       case "tip":
         this.#tipSubscribers.forEach((tipSubscriber: any) => {
-          tipSubscriber.tipAmount = this.tip;
+          tipSubscriber.tip = this.tip;
         });
         break;
       case "people":
         this.#peopleSubscribers.forEach((peopleSubscriber: any) => {
-          peopleSubscriber.tipAmount = this.people;
+          peopleSubscriber.people = this.people;
         });
         break;
       default:

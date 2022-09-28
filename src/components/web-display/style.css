@@ -19,8 +19,13 @@
   transition: background-color 150ms ease;
 }
 
+.webDisplay__resetButton:disabled {
+  background-color: var(--color-button-disabled);
+  cursor: default;
+}
+
 @media (hover: hover) {
-  .webDisplay__resetButton:hover {
+  .webDisplay__resetButton:not(:disabled):hover {
     background-color: var(--color-button-hover);
   }
 }

@@ -9,6 +9,7 @@
   --color-light-grayish-cyan: hsl(185, 41%, 84%);
   --color-light-grayish-cyan-alt: hsl(189, 41%, 97%);
   --color-button-hover: hsl(173, 61%, 77%);
+  --color-button-disabled: hsl(183, 100%, 22%);
   --color-white: hsl(0, 0%, 100%);
   --color-logo: hsl(180, 25%, 32%);
 }
