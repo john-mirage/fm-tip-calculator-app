@@ -1,7 +1,9 @@
+type Callback = () => void;
+
 class TipAPI {
-  static #billSubscribers = new Set();
-  static #tipSubscribers = new Set();
-  static #peopleSubscribers = new Set();
+  static #billSubscribers: Map<HTMLElement, Callback> = new Map();
+  static #tipSubscribers: Map<HTMLElement, Callback> = new Map();
+  static #peopleSubscribers: Map<HTMLElement, Callback> = new Map();
   static #bill?: number;
   static #tip?: number;
   static #people?: number;
@@ -10,44 +12,47 @@ class TipAPI {
     return this.#bill;
   }
 
-  static set bill(newBill: number | undefined) {
-    this.#bill = newBill;
-    this.dispatch("bill");
-  }
-
   static get tip(): number | undefined {
     return this.#tip;
-  }
-
-  static set tip(newTip: number | undefined) {
-    this.#tip = newTip;
-    this.dispatch("tip");
   }
 
   static get people(): number | undefined {
     return this.#people;
   }
 
-  static set people(newPeople: number | undefined) {
+  static updateBill(newBill: number | undefined, sender: HTMLElement) {
+    this.#bill = newBill;
+    this.dispatch("bill", sender);
+  }
+
+  static updateTip(newTip: number | undefined, sender: HTMLElement) {
+    this.#tip = newTip;
+    this.dispatch("tip", sender);
+  }
+
+  static updatePeople(newPeople: number | undefined, sender: HTMLElement) {
     this.#people = newPeople;
-    this.dispatch("people");
+    this.dispatch("people", sender);
   }
 
-  static dispatch(propertyName: string) {
+  static dispatch(propertyName: string, sender: HTMLElement) {
     switch (propertyName) {
       case "bill":
-        this.#billSubscribers.forEach((billSubscriber: any) => {
-          billSubscriber.bill = this.bill;
+        this.#billSubscribers.forEach((callback, htmlElement) => {
+          if (htmlElement !== sender) callback();
         });
         break;
       case "tip":
-        this.#tipSubscribers.forEach((tipSubscriber: any) => {
-          tipSubscriber.tip = this.tip;
+        this.#tipSubscribers.forEach((callback, htmlElement) => {
+          if (htmlElement !== sender) callback();
         });
         break;
       case "people":
-        this.#peopleSubscribers.forEach((peopleSubscriber: any) => {
-          peopleSubscriber.people = this.people;
+        this.#peopleSubscribers.forEach((callback, htmlElement) => {
+          if (htmlElement !== sender) {
+            callback();
+            console.log("people has been changed outside the element");
+          };
         });
         break;
       default:
@@ -55,36 +60,38 @@ class TipAPI {
     }
   }
 
-  static subscribe(propertyName: string, element: any) {
+  static subscribe(propertyName: string, sender: HTMLElement, callback: Callback) {
     switch (propertyName) {
       case "bill":
-        this.#billSubscribers.add(element);
+        this.#billSubscribers.set(sender, callback);
         break;
       case "tip":
-        this.#tipSubscribers.add(element);
+        this.#tipSubscribers.set(sender, callback);
         break;
       case "people":
-        this.#peopleSubscribers.add(element);
+        this.#peopleSubscribers.set(sender, callback);
         break;
       default:
         throw new Error("The property name is not valid");
     }
+    console.log(this.#peopleSubscribers);
   }
 
-  static unsubscribe(propertyName: string, element: any) {
+  static unsubscribe(propertyName: string, sender: HTMLElement) {
     switch (propertyName) {
       case "bill":
-        this.#billSubscribers.delete(element);
+        this.#billSubscribers.delete(sender);
         break;
       case "tip":
-        this.#tipSubscribers.delete(element);
+        this.#tipSubscribers.delete(sender);
         break;
       case "people":
-        this.#peopleSubscribers.delete(element);
+        this.#peopleSubscribers.delete(sender);
         break;
       default:
         throw new Error("The property name is not valid");
     }
+    console.log(this.#peopleSubscribers);
   }
 }
 

@@ -5,10 +5,6 @@ class WebFormTipRadio extends HTMLElement {
   #templateFragment: DocumentFragment;
   #inputElement: HTMLInputElement;
   #labelElement: HTMLLabelElement;
-
-  static get observedAttributes() {
-    return ["data-value"];
-  }
   
   constructor() {
     super();
@@ -16,18 +12,24 @@ class WebFormTipRadio extends HTMLElement {
     this.#templateFragment = <DocumentFragment>template.content.cloneNode(true);
     this.#inputElement = <HTMLInputElement>this.#templateFragment.querySelector('[data-js="input"]');
     this.#labelElement = <HTMLLabelElement>this.#templateFragment.querySelector('[data-js="label"]');
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  get value(): string | undefined {
-    return this.dataset.value;
+  get value(): string {
+    return this.#inputElement.value;
   }
 
-  set value(newValue: string | undefined) {
-    if (typeof newValue === "string") {
-      this.dataset.value = newValue;
-    } else {
-      delete this.dataset.value;
-    }
+  set value(newValue: string) {
+    this.#inputElement.value = newValue;
+    this.#labelElement.textContent = `${newValue}%`;
+  }
+
+  get checked(): boolean {
+    return this.#inputElement.checked;
+  }
+
+  set checked(isChecked: boolean) {
+    this.#inputElement.checked = isChecked;
   }
 
   connectedCallback() {
@@ -37,23 +39,19 @@ class WebFormTipRadio extends HTMLElement {
       this.#initialMount = false;
     }
     if (!this.value) this.value = "0";
+    this.#inputElement.addEventListener("change", this.handleInputChange);
   }
 
-  attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null) {
-    switch (name) {
-      case "data-value":
-        const hasValue = typeof newValue === "string";
-        if (hasValue) {
-          this.#inputElement.value = newValue;
-          this.#labelElement.textContent = `${newValue}%`;
-        } else {
-          this.#inputElement.value = "0"
-          this.#labelElement.textContent = "0";
-        }
-        break;
-      default:
-        throw new Error("The modified attribute is not watched");
-    }
+  disconnectedCallback() {
+    this.#inputElement.removeEventListener("change", this.handleInputChange);
+  }
+
+  handleInputChange() {
+    const customEvent = new CustomEvent("tip-changed", {
+      bubbles: true,
+      detail: { inputElement: this }
+    });
+    this.dispatchEvent(customEvent);
   }
 }
 

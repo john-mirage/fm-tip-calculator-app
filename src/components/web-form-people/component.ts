@@ -1,9 +1,7 @@
 import TipAPI from "@api/tip-api";
 import WebTextInput from "@components/web-text-input";
 
-class WebFormPeople extends WebTextInput {  
-  #people?: number;
-
+class WebFormPeople extends WebTextInput {
   constructor() {
     super();
     this.titleElement.textContent = "Number of People";
@@ -12,26 +10,21 @@ class WebFormPeople extends WebTextInput {
     this.handleInputKeydown = this.handleInputKeydown.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputWheel = this.handleInputWheel.bind(this);
+    this.handlePeopleChange = this.handlePeopleChange.bind(this);
   }
 
   get people(): number | undefined {
-    return this.#people;
+    return TipAPI.people;
   }
 
   set people(newPeople: number | undefined) {
-    console.log("people has been updated");
-    this.#people = newPeople;
-    const people = typeof this.people === "number" ? String(this.people) : "";
-    if (this.inputElement.value !== people) {
-      console.log("people is not sync with the input");
-      this.inputElement.value = people;
-    }
+    TipAPI.updatePeople(newPeople, this);
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.people = TipAPI.people;
-    TipAPI.subscribe("people", this);
+    this.handlePeopleChange();
+    TipAPI.subscribe("people", this, this.handlePeopleChange);
     this.inputElement.addEventListener("keydown", this.handleInputKeydown);
     this.inputElement.addEventListener("input", this.handleInputChange);
     this.inputElement.addEventListener("wheel", this.handleInputWheel);
@@ -42,6 +35,12 @@ class WebFormPeople extends WebTextInput {
     this.inputElement.removeEventListener("keydown", this.handleInputKeydown);
     this.inputElement.removeEventListener("input", this.handleInputChange);
     this.inputElement.removeEventListener("wheel", this.handleInputWheel);
+  }
+
+  handlePeopleChange() {
+    this.inputElement.value = typeof this.people === "number"
+      ? String(this.people)
+      : "";
   }
 
   handleInputKeydown(event: KeyboardEvent) {
@@ -65,9 +64,9 @@ class WebFormPeople extends WebTextInput {
       this.inputElement.value = newValue;
     }
     if (newValue.length > 0) {
-      TipAPI.people = Number(newValue);
+      this.people = Number(newValue);
     } else {
-      TipAPI.people = undefined;
+      this.people = undefined;
     }
   }
 
@@ -78,17 +77,17 @@ class WebFormPeople extends WebTextInput {
       case "down": {
         const newPeople = currentPeople + 1;
         this.inputElement.value = String(newPeople);
-        TipAPI.people = newPeople;
+        this.people = newPeople;
         break;
       }
       case "up": {
         const newPeople = currentPeople - 1;
         if (currentPeople > 1) {
           this.inputElement.value = String(newPeople);
-          TipAPI.people = newPeople;
+          this.people = newPeople;
         } else if (currentPeople === 1) {
           this.inputElement.value = "";
-          TipAPI.people = undefined;
+          this.people = undefined;
         }
         break;
       }

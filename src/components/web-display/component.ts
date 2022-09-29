@@ -5,9 +5,6 @@ class WebDisplay extends HTMLElement {
   #initialMount = true;
   #templateFragment: DocumentFragment;
   #buttonElement: HTMLButtonElement;
-  #bill?: number;
-  #tip?: number;
-  #people?: number;
 
   constructor() {
     super();
@@ -15,33 +12,31 @@ class WebDisplay extends HTMLElement {
     this.#templateFragment = <DocumentFragment>template.content.cloneNode(true);
     this.#buttonElement = <HTMLButtonElement>this.#templateFragment.querySelector('[data-js="button"]');
     this.handleButtonClick = this.handleButtonClick.bind(this);
+    this.handleButtonState = this.handleButtonState.bind(this);
   }
 
   get bill(): number | undefined {
-    return this.#bill;
+    return TipAPI.bill;
   }
 
   set bill(newBill: number | undefined) {
-    this.#bill = newBill;
-    this.handleButtonState();
+    TipAPI.updateBill(newBill, this);
   }
 
   get tip(): number | undefined {
-    return this.#tip;
+    return TipAPI.tip;
   }
 
   set tip(newTip: number | undefined) {
-    this.#tip = newTip;
-    this.handleButtonState();
+    TipAPI.updateBill(newTip, this);
   }
 
   get people(): number | undefined {
-    return this.#people;
+    return TipAPI.people;
   }
 
   set people(newPeople: number | undefined) {
-    this.#people = newPeople;
-    this.handleButtonState();
+    TipAPI.updatePeople(newPeople, this);
   }
 
   connectedCallback() {
@@ -50,12 +45,10 @@ class WebDisplay extends HTMLElement {
       this.append(this.#templateFragment);
       this.#initialMount = false;
     }
-    TipAPI.subscribe("bill", this);
-    TipAPI.subscribe("tip", this);
-    TipAPI.subscribe("people", this);
-    this.bill = TipAPI.bill;
-    this.tip = TipAPI.tip;
-    this.people = TipAPI.people;
+    TipAPI.subscribe("bill", this, this.handleButtonState);
+    TipAPI.subscribe("tip", this, this.handleButtonState);
+    TipAPI.subscribe("people", this, this.handleButtonState);
+    this.handleButtonState();
     this.#buttonElement.addEventListener("click", this.handleButtonClick);
   }
 
@@ -67,12 +60,14 @@ class WebDisplay extends HTMLElement {
   }
 
   handleButtonClick() {
-    TipAPI.bill = undefined;
-    TipAPI.tip = undefined;
-    TipAPI.people = undefined;
+    this.bill = undefined;
+    this.tip = undefined;
+    this.people = undefined;
+    this.handleButtonState();
   }
 
   handleButtonState() {
+    console.log("update display reset button");
     if (!this.bill && !this.tip && !this.people) {
       if (!this.#buttonElement.hasAttribute("disabled")) {
         this.#buttonElement.setAttribute("disabled", "");
