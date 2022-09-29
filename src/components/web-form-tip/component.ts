@@ -4,26 +4,21 @@ import "./style.css";
 class WebFormTip extends HTMLElement {
   #initialMount = true;
   #templateFragment: DocumentFragment;
-  #tip?: number;
 
   constructor() {
     super();
     const template = <HTMLTemplateElement>document.getElementById("template-web-form-tip");
     this.#templateFragment = <DocumentFragment>template.content.cloneNode(true);
+    this.handleRadioChange = this.handleRadioChange.bind(this);
     this.handleTipChange = this.handleTipChange.bind(this);
   }
 
   get tip(): number | undefined {
-    return this.#tip;
+    return TipAPI.tip;
   }
 
   set tip(newTip: number | undefined) {
-    this.#tip = newTip;
-    if (this.tip) {
-
-    } else {
-
-    }
+    TipAPI.updateTip(newTip, this);
   }
 
   connectedCallback() {
@@ -32,16 +27,27 @@ class WebFormTip extends HTMLElement {
       this.append(this.#templateFragment);
       this.#initialMount = false;
     }
-    this.addEventListener("tip-changed", this.handleTipChange);
+    TipAPI.subscribe("tip", this, this.handleTipChange);
+    this.addEventListener("tip-changed", this.handleRadioChange);
   }
 
   disconnectedCallback() {
-    this.removeEventListener("tip-changed", this.handleTipChange);
+    TipAPI.unsubscribe(this);
+    this.removeEventListener("tip-changed", this.handleRadioChange);
   }
 
-  handleTipChange(event: Event) {
-    const { value, type } = (<CustomEvent>event).detail;
-    TipAPI.tip = Number(value);
+  handleTipChange() {
+    const newTip = this.tip;
+    if (typeof newTip === "string") {
+      console.log("new value");
+    } else {
+      //
+    }
+  }
+
+  handleRadioChange(event: Event) {
+    const { radioElement } = (<CustomEvent>event).detail;
+    this.tip = Number(radioElement.value / 100);
   }
 }
 

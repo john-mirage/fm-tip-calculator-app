@@ -1,9 +1,9 @@
-type Callback = () => void;
+type SubscriberCallback = () => void;
 
 class TipAPI {
-  static #billSubscribers: Map<HTMLElement, Callback> = new Map();
-  static #tipSubscribers: Map<HTMLElement, Callback> = new Map();
-  static #peopleSubscribers: Map<HTMLElement, Callback> = new Map();
+  static #billSubscribers: Map<HTMLElement, SubscriberCallback> = new Map();
+  static #tipSubscribers: Map<HTMLElement, SubscriberCallback> = new Map();
+  static #peopleSubscribers: Map<HTMLElement, SubscriberCallback> = new Map();
   static #bill?: number;
   static #tip?: number;
   static #people?: number;
@@ -18,32 +18,6 @@ class TipAPI {
 
   static get people(): number | undefined {
     return this.#people;
-  }
-
-  static subscribe(
-    propertyName: string,
-    element: HTMLElement,
-    callback: Callback
-  ) {
-    switch (propertyName) {
-      case "bill":
-        this.#billSubscribers.set(element, callback);
-        break;
-      case "tip":
-        this.#tipSubscribers.set(element, callback);
-        break;
-      case "people":
-        this.#peopleSubscribers.set(element, callback);
-        break;
-      default:
-        throw new Error("The property name is not valid");
-    }
-  }
-
-  static unsubscribe(element: HTMLElement) {
-    if (this.#billSubscribers.has(element)) this.#billSubscribers.delete(element);
-    if (this.#tipSubscribers.has(element)) this.#tipSubscribers.delete(element);
-    if (this.#peopleSubscribers.has(element)) this.#peopleSubscribers.delete(element);
   }
 
   static updateBill(newBill: number | undefined, sender: HTMLElement) {
@@ -65,6 +39,28 @@ class TipAPI {
     this.#peopleSubscribers.forEach((callback, htmlElement) => {
       if (htmlElement !== sender) callback();
     });
+  }
+
+  static subscribe(key: string, htmlElement: HTMLElement, callback: SubscriberCallback) {
+    switch (key) {
+      case "bill":
+        this.#billSubscribers.set(htmlElement, callback);
+        break;
+      case "tip":
+        this.#tipSubscribers.set(htmlElement, callback);
+        break;
+      case "people":
+        this.#peopleSubscribers.set(htmlElement, callback);
+        break;
+      default:
+        throw new Error("The property name is not valid");
+    }
+  }
+
+  static unsubscribe(htmlElement: HTMLElement) {
+    if (this.#billSubscribers.has(htmlElement)) this.#billSubscribers.delete(htmlElement);
+    if (this.#tipSubscribers.has(htmlElement)) this.#tipSubscribers.delete(htmlElement);
+    if (this.#peopleSubscribers.has(htmlElement)) this.#peopleSubscribers.delete(htmlElement);
   }
 }
 

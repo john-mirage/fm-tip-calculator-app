@@ -20,7 +20,7 @@
   border-width: 0;
 }
 
-.webFormTipCustomRadio__input {
+.webFormTipCustomRadio__textInput {
   margin: 0;
   display: block;
   width: 100%;
@@ -37,16 +37,20 @@
   color: var(--color-very-dark-cyan);
 }
 
-.webFormTipCustomRadio__input::placeholder {
+.webFormTipCustomRadio__textInput::placeholder {
   color: var(--color-dark-grayish-cyan-alt);
 }
 
-.webFormTipCustomRadio__input:focus-visible {
+.webFormTipCustomRadio__textInput:focus-visible {
   outline: 0.125rem solid var(--color-strong-cyan); /* 1px */
 }
 
+.webFormTipCustomRadio__radioInput {
+  display: none;
+}
+
 @media screen and (min-width: 968px) {
-  .webFormTipCustomRadio__input {
+  .webFormTipCustomRadio__textInput {
     padding-left: 0.875rem; /* 12px */
     padding-right: 0.875rem; /* 12px */
   }

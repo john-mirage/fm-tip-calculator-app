@@ -28,7 +28,7 @@ class WebDisplay extends HTMLElement {
   }
 
   set tip(newTip: number | undefined) {
-    TipAPI.updateBill(newTip, this);
+    TipAPI.updateTip(newTip, this);
   }
 
   get people(): number | undefined {
@@ -65,7 +65,6 @@ class WebDisplay extends HTMLElement {
   }
 
   handleButtonState() {
-    console.log("update display reset button");
     if (!this.bill && !this.tip && !this.people) {
       if (!this.#buttonElement.hasAttribute("disabled")) {
         this.#buttonElement.setAttribute("disabled", "");

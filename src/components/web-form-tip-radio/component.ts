@@ -5,6 +5,10 @@ class WebFormTipRadio extends HTMLElement {
   #templateFragment: DocumentFragment;
   #inputElement: HTMLInputElement;
   #labelElement: HTMLLabelElement;
+
+  static get observedAttributes() {
+    return ["data-value", "data-checked"];
+  }
   
   constructor() {
     super();
@@ -15,21 +19,28 @@ class WebFormTipRadio extends HTMLElement {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  get value(): string {
-    return this.#inputElement.value;
+  get value(): string | undefined {
+    return this.dataset.value;
   }
 
-  set value(newValue: string) {
-    this.#inputElement.value = newValue;
-    this.#labelElement.textContent = `${newValue}%`;
+  set value(newValue: string | undefined) {
+    if (typeof newValue === "string") {
+      this.dataset.value = newValue;
+    } else {
+      delete this.dataset.value;
+    }
   }
 
   get checked(): boolean {
-    return this.#inputElement.checked;
+    return this.hasAttribute("data-checked");
   }
 
   set checked(isChecked: boolean) {
-    this.#inputElement.checked = isChecked;
+    if (isChecked) {
+      this.setAttribute("data-checked", "");
+    } else {
+      this.removeAttribute("data-checked");
+    }
   }
 
   connectedCallback() {
@@ -38,7 +49,6 @@ class WebFormTipRadio extends HTMLElement {
       this.append(this.#templateFragment);
       this.#initialMount = false;
     }
-    if (!this.value) this.value = "0";
     this.#inputElement.addEventListener("change", this.handleInputChange);
   }
 
@@ -46,10 +56,27 @@ class WebFormTipRadio extends HTMLElement {
     this.#inputElement.removeEventListener("change", this.handleInputChange);
   }
 
+  attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null) {
+    switch (name) {
+      case "data-value":
+        const hasValue = typeof newValue === "string";
+        if (hasValue) {
+          this.#inputElement.value = newValue;
+          this.#labelElement.textContent = `${newValue}%`;
+        } else {
+          this.#inputElement.value = "";
+          this.#labelElement.textContent = null;
+        }
+        break;
+      default:
+        throw new Error("The modified attribute is not watched");
+    }
+  }
+
   handleInputChange() {
     const customEvent = new CustomEvent("tip-changed", {
       bubbles: true,
-      detail: { inputElement: this }
+      detail: { radioElement: this }
     });
     this.dispatchEvent(customEvent);
   }

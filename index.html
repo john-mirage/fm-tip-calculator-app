@@ -65,9 +65,9 @@
   <!-- template | web form -->
   <template id="template-web-form">
     <form class="webForm__form">
-      <web-form-bill data-js="bill"></web-form-bill>
-      <web-form-tip data-js="tip"></web-form-tip>
-      <web-form-people data-js="people"></web-form-people>
+      <web-form-bill></web-form-bill>
+      <web-form-tip></web-form-tip>
+      <web-form-people></web-form-people>
     </form>
   </template>
 
@@ -75,12 +75,12 @@
   <template id="template-web-form-tip">
     <h2 class="webFormTip__title">Select Tip %</h2>
     <div class="webFormTip__grid">
-      <web-form-tip-radio data-js="radio" data-value="5"></web-form-tip-radio>
-      <web-form-tip-radio data-js="radio" data-value="10"></web-form-tip-radio>
-      <web-form-tip-radio data-js="radio" data-value="15"></web-form-tip-radio>
-      <web-form-tip-radio data-js="radio" data-value="25"></web-form-tip-radio>
-      <web-form-tip-radio data-js="radio" data-value="50"></web-form-tip-radio>
-      <web-form-tip-custom-radio data-js="custom-radio"></web-form-tip-custom-radio>
+      <web-form-tip-radio data-value="5"></web-form-tip-radio>
+      <web-form-tip-radio data-value="10"></web-form-tip-radio>
+      <web-form-tip-radio data-value="15"></web-form-tip-radio>
+      <web-form-tip-radio data-value="25"></web-form-tip-radio>
+      <web-form-tip-radio data-value="50"></web-form-tip-radio>
+      <web-form-tip-custom-radio></web-form-tip-custom-radio>
     </div>
   </template>
 
@@ -97,7 +97,8 @@
   <template id="template-web-form-tip-custom-radio">
     <label class="webFormTipCustomRadio__label">
       <span class="webFormTipCustomRadio__labelValue">Custom tip</span>
-      <input class="webFormTipCustomRadio__input" type="text" name="custom-type" placeholder="Custom" data-js="input"/>
+      <input class="webFormTipCustomRadio__textInput" type="text" name="custom-type" placeholder="Custom" data-js="text-input"/>
+      <input class="webFormTipCustomRadio__radioInput" type="radio" name="tip" data-js="radio-input">
     </label>
   </template>
 

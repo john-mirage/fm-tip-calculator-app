@@ -3,8 +3,6 @@ import "./style.css";
 class WebForm extends HTMLElement {
   #initialMount = true;
   #templateFragment: DocumentFragment;
-  #billWebTextInput;
-  #peopleWebTextInput;
   
   constructor() {
     super();
