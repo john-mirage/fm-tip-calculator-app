@@ -1,16 +1,20 @@
 import TipAPI from "@api/tip-api";
+import WebFormTipCustomRadio from "@components/web-form-tip-custom-radio";
+import WebFormTipRadio from "@components/web-form-tip-radio";
 import "./style.css";
+
+type RadioInput = WebFormTipRadio | WebFormTipCustomRadio;
 
 class WebFormTip extends HTMLElement {
   #initialMount = true;
   #templateFragment: DocumentFragment;
-  #radioInputs: NodeListOf<HTMLElement>;
+  #radioInputs: NodeListOf<RadioInput>;
 
   constructor() {
     super();
     const template = <HTMLTemplateElement>document.getElementById("template-web-form-tip");
     this.#templateFragment = <DocumentFragment>template.content.cloneNode(true);
-    this.#radioInputs = <NodeListOf<HTMLElement>>this.#templateFragment.querySelectorAll('[data-js="radio"]');
+    this.#radioInputs = <NodeListOf<RadioInput>>this.#templateFragment.querySelectorAll('[data-js="radio"]');
     this.handleRadioChange = this.handleRadioChange.bind(this);
     this.handleTipChange = this.handleTipChange.bind(this);
   }
@@ -51,8 +55,7 @@ class WebFormTip extends HTMLElement {
     const { radioElement } = (<CustomEvent>event).detail;
     this.#radioInputs.forEach((radioInput) => {
       if (radioElement !== radioInput) {
-        console.log("disable")
-        radioInput.checked = false;
+        if (radioInput.checked) radioInput.checked = false;
       }
     });
     this.tip = Number(radioElement.value / 100);
