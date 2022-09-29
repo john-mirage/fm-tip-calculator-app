@@ -21,14 +21,6 @@ class WebFormPeople extends WebTextInput {
     TipAPI.updatePeople(newPeople, this);
   }
 
-  get value(): string {
-    return this.inputElement.value;
-  }
-
-  set value(newValue: string) {
-    this.inputElement.value = newValue;
-  }
-
   connectedCallback() {
     super.connectedCallback();
     this.handlePeopleChange();
@@ -47,9 +39,9 @@ class WebFormPeople extends WebTextInput {
 
   handlePeopleChange() {
     if (typeof this.people === "number") {
-      this.value = String(this.people * 100);
+      this.inputElement.value = String(this.people * 100);
     } else {
-      this.value = "";
+      this.inputElement.value = "";
     }
   }
 
@@ -71,13 +63,13 @@ class WebFormPeople extends WebTextInput {
     let newValue = this.inputElement.value;
     if (valueNeedToBeFormatted) {
       newValue = newValue.replace(startWithZerosRegex, "");
-      this.value = newValue;
+      this.inputElement.value = newValue;
     }
     if (newValue.length > 0) {
-      this.value = newValue;
+      this.inputElement.value = newValue;
       this.people = Number(newValue);
     } else {
-      this.value = "";
+      this.inputElement.value = "";
       this.people = undefined;
     }
   }
@@ -88,17 +80,17 @@ class WebFormPeople extends WebTextInput {
     switch (direction) {
       case "down": {
         const newPeople = currentPeople + 1;
-        this.value = String(newPeople);
+        this.inputElement.value = String(newPeople);
         this.people = newPeople;
         break;
       }
       case "up": {
         const newPeople = currentPeople - 1;
         if (currentPeople > 1) {
-          this.value = String(newPeople);
+          this.inputElement.value = String(newPeople);
           this.people = newPeople;
         } else if (currentPeople === 1) {
-          this.value = "";
+          this.inputElement.value = "";
           this.people = undefined;
         }
         break;

@@ -7,7 +7,7 @@ class WebFormTipRadio extends HTMLElement {
   #labelElement: HTMLLabelElement;
 
   static get observedAttributes() {
-    return ["data-value", "data-checked"];
+    return ["data-value"];
   }
   
   constructor() {
@@ -32,15 +32,11 @@ class WebFormTipRadio extends HTMLElement {
   }
 
   get checked(): boolean {
-    return this.hasAttribute("data-checked");
+    return this.#inputElement.checked;
   }
 
   set checked(isChecked: boolean) {
-    if (isChecked) {
-      this.setAttribute("data-checked", "");
-    } else {
-      this.removeAttribute("data-checked");
-    }
+    this.#inputElement.checked = isChecked;
   }
 
   connectedCallback() {

@@ -37,7 +37,7 @@ class WebFormTipCustomRadio extends HTMLElement {
 
   set checked(isChecked: boolean) {
     this.#radioInputElement.checked = isChecked;
-    if (!this.checked) this.#textInputElement.textContent = null;
+    if (!this.checked) this.#textInputElement.value = "";
   }
 
   connectedCallback() {

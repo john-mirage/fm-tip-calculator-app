@@ -4,11 +4,13 @@ import "./style.css";
 class WebFormTip extends HTMLElement {
   #initialMount = true;
   #templateFragment: DocumentFragment;
+  #radioInputs: NodeListOf<HTMLElement>;
 
   constructor() {
     super();
     const template = <HTMLTemplateElement>document.getElementById("template-web-form-tip");
     this.#templateFragment = <DocumentFragment>template.content.cloneNode(true);
+    this.#radioInputs = <NodeListOf<HTMLElement>>this.#templateFragment.querySelectorAll('[data-js="radio"]');
     this.handleRadioChange = this.handleRadioChange.bind(this);
     this.handleTipChange = this.handleTipChange.bind(this);
   }
@@ -41,12 +43,18 @@ class WebFormTip extends HTMLElement {
     if (typeof newTip === "string") {
       console.log("new value");
     } else {
-      //
+      this.#radioInputs.forEach((radioInput) => radioInput.checked = false);
     }
   }
 
   handleRadioChange(event: Event) {
     const { radioElement } = (<CustomEvent>event).detail;
+    this.#radioInputs.forEach((radioInput) => {
+      if (radioElement !== radioInput) {
+        console.log("disable")
+        radioInput.checked = false;
+      }
+    });
     this.tip = Number(radioElement.value / 100);
   }
 }
