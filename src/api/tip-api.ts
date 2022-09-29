@@ -20,78 +20,51 @@ class TipAPI {
     return this.#people;
   }
 
+  static subscribe(
+    propertyName: string,
+    element: HTMLElement,
+    callback: Callback
+  ) {
+    switch (propertyName) {
+      case "bill":
+        this.#billSubscribers.set(element, callback);
+        break;
+      case "tip":
+        this.#tipSubscribers.set(element, callback);
+        break;
+      case "people":
+        this.#peopleSubscribers.set(element, callback);
+        break;
+      default:
+        throw new Error("The property name is not valid");
+    }
+  }
+
+  static unsubscribe(element: HTMLElement) {
+    if (this.#billSubscribers.has(element)) this.#billSubscribers.delete(element);
+    if (this.#tipSubscribers.has(element)) this.#tipSubscribers.delete(element);
+    if (this.#peopleSubscribers.has(element)) this.#peopleSubscribers.delete(element);
+  }
+
   static updateBill(newBill: number | undefined, sender: HTMLElement) {
     this.#bill = newBill;
-    this.dispatch("bill", sender);
+    this.#billSubscribers.forEach((callback, htmlElement) => {
+      if (htmlElement !== sender) callback();
+    });
   }
 
   static updateTip(newTip: number | undefined, sender: HTMLElement) {
     this.#tip = newTip;
-    this.dispatch("tip", sender);
+    this.#tipSubscribers.forEach((callback, htmlElement) => {
+      if (htmlElement !== sender) callback();
+    });
   }
 
   static updatePeople(newPeople: number | undefined, sender: HTMLElement) {
     this.#people = newPeople;
-    this.dispatch("people", sender);
-  }
-
-  static dispatch(propertyName: string, sender: HTMLElement) {
-    switch (propertyName) {
-      case "bill":
-        this.#billSubscribers.forEach((callback, htmlElement) => {
-          if (htmlElement !== sender) callback();
-        });
-        break;
-      case "tip":
-        this.#tipSubscribers.forEach((callback, htmlElement) => {
-          if (htmlElement !== sender) callback();
-        });
-        break;
-      case "people":
-        this.#peopleSubscribers.forEach((callback, htmlElement) => {
-          if (htmlElement !== sender) {
-            callback();
-            console.log("people has been changed outside the element");
-          };
-        });
-        break;
-      default:
-        throw new Error("The property name is not valid");
-    }
-  }
-
-  static subscribe(propertyName: string, sender: HTMLElement, callback: Callback) {
-    switch (propertyName) {
-      case "bill":
-        this.#billSubscribers.set(sender, callback);
-        break;
-      case "tip":
-        this.#tipSubscribers.set(sender, callback);
-        break;
-      case "people":
-        this.#peopleSubscribers.set(sender, callback);
-        break;
-      default:
-        throw new Error("The property name is not valid");
-    }
-    console.log(this.#peopleSubscribers);
-  }
-
-  static unsubscribe(propertyName: string, sender: HTMLElement) {
-    switch (propertyName) {
-      case "bill":
-        this.#billSubscribers.delete(sender);
-        break;
-      case "tip":
-        this.#tipSubscribers.delete(sender);
-        break;
-      case "people":
-        this.#peopleSubscribers.delete(sender);
-        break;
-      default:
-        throw new Error("The property name is not valid");
-    }
-    console.log(this.#peopleSubscribers);
+    this.#peopleSubscribers.forEach((callback, htmlElement) => {
+      if (htmlElement !== sender) callback();
+    });
   }
 }
 

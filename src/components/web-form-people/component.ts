@@ -31,7 +31,7 @@ class WebFormPeople extends WebTextInput {
   }
 
   disconnectedCallback() {
-    TipAPI.unsubscribe("people", this);
+    TipAPI.unsubscribe(this);
     this.inputElement.removeEventListener("keydown", this.handleInputKeydown);
     this.inputElement.removeEventListener("input", this.handleInputChange);
     this.inputElement.removeEventListener("wheel", this.handleInputWheel);

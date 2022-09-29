@@ -53,9 +53,7 @@ class WebDisplay extends HTMLElement {
   }
 
   disconnectedCallback() {
-    TipAPI.unsubscribe("bill", this);
-    TipAPI.unsubscribe("tip", this);
-    TipAPI.unsubscribe("people", this);
+    TipAPI.unsubscribe(this);
     this.#buttonElement.removeEventListener("click", this.handleButtonClick);
   }
 
