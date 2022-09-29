@@ -9,12 +9,14 @@ class WebFormTip extends HTMLElement {
   #initialMount = true;
   #templateFragment: DocumentFragment;
   #radioInputs: NodeListOf<RadioInput>;
+  #customRadio: WebFormTipCustomRadio;
 
   constructor() {
     super();
     const template = <HTMLTemplateElement>document.getElementById("template-web-form-tip");
     this.#templateFragment = <DocumentFragment>template.content.cloneNode(true);
     this.#radioInputs = <NodeListOf<RadioInput>>this.#templateFragment.querySelectorAll('[data-js="radio"]');
+    this.#customRadio = <WebFormTipCustomRadio>this.#templateFragment.querySelector("web-form-tip-custom-radio");
     this.handleRadioChange = this.handleRadioChange.bind(this);
     this.handleTipChange = this.handleTipChange.bind(this);
   }
@@ -53,11 +55,7 @@ class WebFormTip extends HTMLElement {
 
   handleRadioChange(event: Event) {
     const { radioElement } = (<CustomEvent>event).detail;
-    this.#radioInputs.forEach((radioInput) => {
-      if (radioElement !== radioInput) {
-        if (radioInput.checked) radioInput.checked = false;
-      }
-    });
+    if (radioElement !== this.#customRadio) this.#customRadio.value = "";
     this.tip = Number(radioElement.value / 100);
   }
 }
