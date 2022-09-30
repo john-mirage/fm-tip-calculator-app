@@ -1,22 +1,21 @@
 import TipAPI from "@api/tip-api";
-import WebDisplayTipAmount from "@components/web-display-tip-amount";
-import WebDisplayTotal from "@components/web-display-total";
+import WebDisplayRow from "@components/web-display-row";
 import "./style.css";
 
 class WebDisplay extends HTMLElement {
   #initialMount = true;
   #templateFragment: DocumentFragment;
   #buttonElement: HTMLButtonElement;
-  #webDisplayTipAmount: WebDisplayTipAmount;
-  #webDisplayTotal: WebDisplayTotal;
+  #webDisplayTipAmount: WebDisplayRow;
+  #webDisplayTotal: WebDisplayRow;
 
   constructor() {
     super();
     const template = <HTMLTemplateElement>document.getElementById("template-web-display");
     this.#templateFragment = <DocumentFragment>template.content.cloneNode(true);
     this.#buttonElement = <HTMLButtonElement>this.#templateFragment.querySelector('[data-js="button"]');
-    this.#webDisplayTipAmount = <WebDisplayTipAmount>this.#templateFragment.querySelector('[data-js="tip-amount"]');
-    this.#webDisplayTotal = <WebDisplayTotal>this.#templateFragment.querySelector('[data-js="total"]');
+    this.#webDisplayTipAmount = <WebDisplayRow>this.#templateFragment.querySelector('[data-js="tip-amount"]');
+    this.#webDisplayTotal = <WebDisplayRow>this.#templateFragment.querySelector('[data-js="total"]');
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleDataChange = this.handleDataChange.bind(this);
   }
@@ -67,7 +66,7 @@ class WebDisplay extends HTMLElement {
     this.bill = "";
     this.tip = "";
     this.people = "";
-    this.handleButtonState();
+    this.handleDataChange();
   }
 
   handleButtonState() {
@@ -88,12 +87,12 @@ class WebDisplay extends HTMLElement {
     const bill = this.bill.length > 0 ? Number(this.bill) : 0;
     const people = this.people.length > 0 ? Number(this.people) : 0;
     if (bill > 0 && people > 0) {
-      const tip = this.tip.length > 0 ? Number(this.tip) : 0;
-      this.#webDisplayTipAmount.tipAmount = (bill * tip) / people;
-      this.#webDisplayTotal.total = ((bill * tip) + bill) / people;
+      const tip = this.tip.length > 0 ? (Number(this.tip) / 100) : 0;
+      this.#webDisplayTipAmount.value = String((bill * tip) / people);
+      this.#webDisplayTotal.value = String(((bill * tip) + bill) / people);
     } else {
-      this.#webDisplayTipAmount.tipAmount = 0;
-      this.#webDisplayTotal.total = 0;
+      this.#webDisplayTipAmount.value = "0";
+      this.#webDisplayTotal.value = "0";
     }
   }
 }

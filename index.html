@@ -104,16 +104,16 @@
 
   <!-- template | web display -->
   <template id="template-web-display">
-    <web-display-tip-amount data-js="tip-amount"></web-display-tip-amount>
-    <web-display-total data-js="total"></web-display-total>
+    <web-display-row data-js="tip-amount" data-label="Tip Amount"></web-display-row>
+    <web-display-row data-js="total" data-label="Total"></web-display-row>
     <button class="webDisplay__resetButton" data-js="button">reset</button>
   </template>
 
   <!-- template | web display row -->
   <template id="template-web-display-row">
     <div class="webDisplayRow__column">
-      <h3 class="webDisplayRow__title" data-js="title"></h3>
-      <p class="webDisplayRow__subtitle">/ person</p>
+      <h3 class="webDisplayRow__label" data-js="label"></h3>
+      <p class="webDisplayRow__labelUnit">/ person</p>
     </div>
     <p class="webDisplayRow__value" data-js="value"></p>
   </template>

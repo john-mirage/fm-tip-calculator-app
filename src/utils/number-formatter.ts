@@ -3,8 +3,8 @@ const numberFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD"
 });
 
-function formatNumber(number: number): string {
+function formatNumberToDollar(number: number): string {
   return numberFormatter.format(number);
 }
 
-export default formatNumber;
+export default formatNumberToDollar;

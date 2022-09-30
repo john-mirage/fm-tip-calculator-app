@@ -38,11 +38,7 @@ class WebFormPeople extends WebTextInput {
   }
 
   handlePeopleChange() {
-    if (typeof this.people === "number") {
-      this.inputElement.value = String(Number(this.people) * 100);
-    } else {
-      this.inputElement.value = "";
-    }
+    this.inputElement.value = this.people;
   }
 
   handleInputKeydown(event: KeyboardEvent) {
