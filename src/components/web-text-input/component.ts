@@ -7,6 +7,7 @@ class WebTextInput extends HTMLElement {
   labeElement: HTMLLabelElement;
   inputElement: HTMLInputElement;
   useElement: SVGUseElement;
+  errorElement: HTMLSpanElement;
   
   constructor() {
     super();
@@ -16,6 +17,10 @@ class WebTextInput extends HTMLElement {
     this.labeElement = <HTMLLabelElement>this.#templateFragment.querySelector('[data-js="label"]');
     this.inputElement = <HTMLInputElement>this.#templateFragment.querySelector('[data-js="input"]');
     this.useElement = <SVGUseElement>this.#templateFragment.querySelector('[data-js="icon"]');
+    this.errorElement = <HTMLSpanElement>this.#templateFragment.querySelector('[data-js="error"]');
+    this.inputElement.setAttribute("minlength", "1");
+    this.inputElement.setAttribute("inputmode", "numeric");
+    this.inputElement.setAttribute("spellcheck", "false");
   }
 
   connectedCallback() {

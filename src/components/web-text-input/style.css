@@ -21,12 +21,22 @@
   width: 100%;
 }
 
-.webTextInput__labelValue {
+.webTextInput__labelRow {
   margin-bottom: 0.375rem; /* 6px */
-  display: block;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   font-size: 1rem; /* 16px */
   font-weight: 700;
+}
+
+.webTextInput__labelValue {
   color: var(--color-very-dark-cyan);
+}
+
+.webTextInput__labelError {
+  color: var(--color-error);
 }
 
 .webTextInput__input {

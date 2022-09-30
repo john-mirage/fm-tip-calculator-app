@@ -1,16 +1,21 @@
 import TipAPI from "@api/tip-api";
 import WebTextInput from "@components/web-text-input";
 
+const firstKeyRegex = /^[1-9]$/;
+const defaultKeyRegex = /^\d$|^Backspace$|^Delete$|^ArrowLeft$|^ArrowRight$/;
+const startWithZerosRegex = /^0+(?=\d*$)/;
+
 class WebFormPeople extends WebTextInput {
   constructor() {
     super();
     this.titleElement.textContent = "Number of People";
     this.labeElement.textContent = "Number of People";
     this.useElement.setAttribute("href", "#icon-people");
+    this.inputElement.setAttribute("pattern", "^[1-9]\\d*$");
+    this.handlePeopleChange = this.handlePeopleChange.bind(this);
     this.handleInputKeydown = this.handleInputKeydown.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputWheel = this.handleInputWheel.bind(this);
-    this.handlePeopleChange = this.handlePeopleChange.bind(this);
   }
 
   get people(): string {
@@ -42,56 +47,55 @@ class WebFormPeople extends WebTextInput {
   }
 
   handleInputKeydown(event: KeyboardEvent) {
-    const firstInputRegex = /^[1-9]$/;
-    const defaultInputRegex = /^\d$|^Backspace$|^Delete$|^ArrowLeft$|^ArrowRight$/;
     if (this.inputElement.value.length <= 0) {
-      if (!firstInputRegex.test(event.key)) {
+      if (!firstKeyRegex.test(event.key)) {
         event.preventDefault();
       }
-    } else if (!defaultInputRegex.test(event.key)) {
+    } else if (!defaultKeyRegex.test(event.key)) {
       event.preventDefault();
     }
   }
 
   handleInputChange() {
-    const startWithZerosRegex = /^0+(?=\d*$)/;
     const valueNeedToBeFormatted = startWithZerosRegex.test(this.inputElement.value);
     let newValue = this.inputElement.value;
     if (valueNeedToBeFormatted) {
       newValue = newValue.replace(startWithZerosRegex, "");
       this.inputElement.value = newValue;
     }
-    if (newValue.length > 0) {
-      this.inputElement.value = newValue;
+    if (this.inputElement.validity.valid) {
+      if (this.errorElement.textContent !== "") this.errorElement.textContent = "";
       this.people = newValue;
     } else {
-      this.inputElement.value = "";
+      if (this.errorElement.textContent !== "Wrong format") this.errorElement.textContent = "Wrong format";
       this.people = "";
     }
   }
 
   handleInputWheel(event: WheelEvent) {
-    const direction = event.deltaY > 0 ? "down" : "up";
-    const currentPeople = this.inputElement.value.length <= 0 ? 0 : Number(this.inputElement.value);
-    switch (direction) {
-      case "down": {
-        const newPeople = currentPeople + 1;
-        this.inputElement.value = String(newPeople);
-        this.people = String(newPeople);
-        break;
-      }
-      case "up": {
-        const newPeople = currentPeople - 1;
-        if (currentPeople > 1) {
-          this.inputElement.value = String(newPeople);
-          this.people = String(newPeople);
-        } else if (currentPeople === 1) {
-          this.inputElement.value = "";
-          this.people = "";
+    if (document.activeElement === this.inputElement) {
+      const direction = event.deltaY > 0 ? "down" : "up";
+      const currentPeople = this.inputElement.value.length <= 0 ? 0 : Number(this.inputElement.value);
+      switch (direction) {
+        case "down": {
+          const newPeople = String(currentPeople + 1);
+          this.inputElement.value = newPeople;
+          this.people = newPeople;
+          break;
         }
-        break;
+        case "up": {
+          const newPeople = String(currentPeople - 1);
+          if (currentPeople > 1) {
+            this.inputElement.value = newPeople;
+            this.people = newPeople;
+          } else if (currentPeople === 1) {
+            this.inputElement.value = "";
+            this.people = "";
+          }
+          break;
+        }
+        default: throw new Error("The direction is not valid");
       }
-      default: throw new Error("The direction is not valid");
     }
   }
 }

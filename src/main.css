@@ -12,4 +12,5 @@
   --color-button-disabled: hsl(183, 100%, 22%);
   --color-white: hsl(0, 0%, 100%);
   --color-logo: hsl(180, 25%, 32%);
+  --color-error: hsl(12, 33%, 57%);
 }

@@ -97,7 +97,7 @@
   <template id="template-web-form-tip-custom-radio">
     <label class="webFormTipCustomRadio__label">
       <span class="webFormTipCustomRadio__labelValue">Custom tip</span>
-      <input class="webFormTipCustomRadio__textInput" type="text" name="custom-type" placeholder="Custom" data-js="text-input"/>
+      <input class="webFormTipCustomRadio__textInput" type="text" minlength="1" pattern="^[1-9]\d*$" name="custom-type" placeholder="Custom" data-js="text-input"/>
       <input class="webFormTipCustomRadio__radioInput" type="radio" name="tip" data-js="radio-input">
     </label>
   </template>
@@ -122,7 +122,10 @@
   <template id="template-web-text-input">
     <h2 class="webTextInput__title" data-js="title"></h2>
     <label class="webTextInput__label">
-      <span class="webTextInput__labelValue" data-js="label"></span>
+      <span class="webTextInput__labelRow">
+        <span class="webTextInput__labelValue" data-js="label"></span>
+        <span class="webTextInput__labelError" data-js="error"></span>
+      </span>
       <input class="webTextInput__input" type="text" placeholder="0" data-js="input"/>
       <svg class="webTextInput__icon" fill="currentColor">
         <use data-js="icon"/>

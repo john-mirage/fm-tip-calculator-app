@@ -1,5 +1,6 @@
 import TipAPI from "@api/tip-api";
 import WebDisplayRow from "@components/web-display-row";
+import formatNumberToDollar from "@utils/number-formatter";
 import "./style.css";
 
 class WebDisplay extends HTMLElement {
@@ -88,11 +89,11 @@ class WebDisplay extends HTMLElement {
     const people = this.people.length > 0 ? Number(this.people) : 0;
     if (bill > 0 && people > 0) {
       const tip = this.tip.length > 0 ? (Number(this.tip) / 100) : 0;
-      this.#webDisplayTipAmount.value = String((bill * tip) / people);
-      this.#webDisplayTotal.value = String(((bill * tip) + bill) / people);
+      this.#webDisplayTipAmount.value = formatNumberToDollar((bill * tip) / people);
+      this.#webDisplayTotal.value = formatNumberToDollar(((bill * tip) + bill) / people);
     } else {
-      this.#webDisplayTipAmount.value = "0";
-      this.#webDisplayTotal.value = "0";
+      this.#webDisplayTipAmount.value = formatNumberToDollar(0);
+      this.#webDisplayTotal.value = formatNumberToDollar(0);
     }
   }
 }

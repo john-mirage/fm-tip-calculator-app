@@ -47,17 +47,19 @@ class WebFormTip extends HTMLElement {
 
   handleTipChange() {
     const newTip = this.tip;
-    const radioInputs = Array.from(this.#webFormTipRadios);
+    const webFormTipRadios = Array.from(this.#webFormTipRadios);
     if (this.tip.length > 0) {
-      const tipRadioInput = radioInputs.find((radioInput) => radioInput.value === newTip);
+      const tipRadioInput = webFormTipRadios.find((radioInput) => radioInput.value === newTip);
       if (tipRadioInput) {
         tipRadioInput.checked = true;
       } else {
         this.#webFormTipCustomRadio.value = newTip;
-        this.#webFormTipCustomRadio.checked = true;
       }
     } else {
-      [...radioInputs, this.#webFormTipCustomRadio].forEach((radioInput) => radioInput.checked = false);
+      webFormTipRadios.forEach((webFormTipRadio) => {
+        if (webFormTipRadio.checked) webFormTipRadio.checked = false;
+      });
+      this.#webFormTipCustomRadio.value = "";
     }
   }
 

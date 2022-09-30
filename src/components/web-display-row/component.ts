@@ -1,4 +1,3 @@
-import formatNumberToDollar from "@utils/number-formatter";
 import "./style.css";
 
 class WebDisplayRow extends HTMLElement {
@@ -49,7 +48,7 @@ class WebDisplayRow extends HTMLElement {
       this.append(this.#templateFragment);
       this.#initialMount = false;
     }
-    this.value = "0";
+    this.value = "$0.00";
   }
 
   attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null) {
@@ -58,9 +57,8 @@ class WebDisplayRow extends HTMLElement {
         this.#labelElement.textContent = newValue;
         break;
       case "data-value":
-        const formattedValue = formatNumberToDollar(Number(newValue));
-        this.handleValueSize(formattedValue.length);
-        this.#valueElement.textContent = formattedValue;
+        this.handleValueSize(newValue !== null ? newValue.length : 0);
+        this.#valueElement.textContent = newValue;
         break;
       default:
         throw new Error("The modified attribute is not valid");
