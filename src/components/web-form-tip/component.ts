@@ -3,29 +3,28 @@ import WebFormTipCustomRadio from "@components/web-form-tip-custom-radio";
 import WebFormTipRadio from "@components/web-form-tip-radio";
 import "./style.css";
 
-type RadioInput = WebFormTipRadio | WebFormTipCustomRadio;
-
 class WebFormTip extends HTMLElement {
   #initialMount = true;
   #templateFragment: DocumentFragment;
-  #radioInputs: NodeListOf<RadioInput>;
-  #customRadio: WebFormTipCustomRadio;
+  #webFormTipRadios: NodeListOf<WebFormTipRadio>;
+  #webFormTipCustomRadio: WebFormTipCustomRadio;
 
   constructor() {
     super();
     const template = <HTMLTemplateElement>document.getElementById("template-web-form-tip");
     this.#templateFragment = <DocumentFragment>template.content.cloneNode(true);
-    this.#radioInputs = <NodeListOf<RadioInput>>this.#templateFragment.querySelectorAll('[data-js="radio"]');
-    this.#customRadio = <WebFormTipCustomRadio>this.#templateFragment.querySelector("web-form-tip-custom-radio");
+    this.#webFormTipRadios = <NodeListOf<WebFormTipRadio>>this.#templateFragment.querySelectorAll('[data-js="radio"]');
+    this.#webFormTipCustomRadio = <WebFormTipCustomRadio>this.#templateFragment.querySelector('[data-js="custom-radio"]');
     this.handleRadioChange = this.handleRadioChange.bind(this);
+    this.handleCustomRadioChange = this.handleCustomRadioChange.bind(this);
     this.handleTipChange = this.handleTipChange.bind(this);
   }
 
-  get tip(): number | undefined {
+  get tip(): string {
     return TipAPI.tip;
   }
 
-  set tip(newTip: number | undefined) {
+  set tip(newTip: string) {
     TipAPI.updateTip(newTip, this);
   }
 
@@ -37,26 +36,40 @@ class WebFormTip extends HTMLElement {
     }
     TipAPI.subscribe("tip", this, this.handleTipChange);
     this.addEventListener("tip-changed", this.handleRadioChange);
+    this.addEventListener("custom-tip-changed", this.handleCustomRadioChange);
   }
 
   disconnectedCallback() {
     TipAPI.unsubscribe(this);
     this.removeEventListener("tip-changed", this.handleRadioChange);
+    this.removeEventListener("custom-tip-changed", this.handleCustomRadioChange);
   }
 
   handleTipChange() {
     const newTip = this.tip;
-    if (typeof newTip === "string") {
-      console.log("new value");
+    const radioInputs = Array.from(this.#webFormTipRadios);
+    if (this.tip.length > 0) {
+      const tipRadioInput = radioInputs.find((radioInput) => radioInput.value === newTip);
+      if (tipRadioInput) {
+        tipRadioInput.checked = true;
+      } else {
+        this.#webFormTipCustomRadio.value = newTip;
+        this.#webFormTipCustomRadio.checked = true;
+      }
     } else {
-      this.#radioInputs.forEach((radioInput) => radioInput.checked = false);
+      [...radioInputs, this.#webFormTipCustomRadio].forEach((radioInput) => radioInput.checked = false);
     }
   }
 
   handleRadioChange(event: Event) {
-    const { radioElement } = (<CustomEvent>event).detail;
-    if (radioElement !== this.#customRadio) this.#customRadio.value = "";
-    this.tip = Number(radioElement.value / 100);
+    const { value } = (<CustomEvent>event).detail;
+    this.#webFormTipCustomRadio.value = "";
+    this.tip = value;
+  }
+
+  handleCustomRadioChange(event: Event) {
+    const { value } = (<CustomEvent>event).detail;
+    this.tip = value;
   }
 }
 

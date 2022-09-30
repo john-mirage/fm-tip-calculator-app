@@ -4,40 +4,40 @@ class TipAPI {
   static #billSubscribers: Map<HTMLElement, SubscriberCallback> = new Map();
   static #tipSubscribers: Map<HTMLElement, SubscriberCallback> = new Map();
   static #peopleSubscribers: Map<HTMLElement, SubscriberCallback> = new Map();
-  static #bill?: number;
-  static #tip?: number;
-  static #people?: number;
+  static #bill: string = "";
+  static #tip: string = "";
+  static #people: string = "";
 
-  static get bill(): number | undefined {
+  static get bill(): string {
     return this.#bill;
   }
 
-  static get tip(): number | undefined {
+  static get tip(): string {
     return this.#tip;
   }
 
-  static get people(): number | undefined {
+  static get people(): string {
     return this.#people;
   }
 
-  static updateBill(newBill: number | undefined, sender: HTMLElement) {
+  static updateBill(newBill: string, emitter: HTMLElement) {
     this.#bill = newBill;
     this.#billSubscribers.forEach((callback, htmlElement) => {
-      if (htmlElement !== sender) callback();
+      if (htmlElement !== emitter) callback();
     });
   }
 
-  static updateTip(newTip: number | undefined, sender: HTMLElement) {
+  static updateTip(newTip: string, emitter: HTMLElement) {
     this.#tip = newTip;
     this.#tipSubscribers.forEach((callback, htmlElement) => {
-      if (htmlElement !== sender) callback();
+      if (htmlElement !== emitter) callback();
     });
   }
 
-  static updatePeople(newPeople: number | undefined, sender: HTMLElement) {
+  static updatePeople(newPeople: string, emitter: HTMLElement) {
     this.#people = newPeople;
     this.#peopleSubscribers.forEach((callback, htmlElement) => {
-      if (htmlElement !== sender) callback();
+      if (htmlElement !== emitter) callback();
     });
   }
 

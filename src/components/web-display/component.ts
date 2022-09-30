@@ -1,41 +1,47 @@
 import TipAPI from "@api/tip-api";
+import WebDisplayTipAmount from "@components/web-display-tip-amount";
+import WebDisplayTotal from "@components/web-display-total";
 import "./style.css";
 
 class WebDisplay extends HTMLElement {
   #initialMount = true;
   #templateFragment: DocumentFragment;
   #buttonElement: HTMLButtonElement;
+  #webDisplayTipAmount: WebDisplayTipAmount;
+  #webDisplayTotal: WebDisplayTotal;
 
   constructor() {
     super();
     const template = <HTMLTemplateElement>document.getElementById("template-web-display");
     this.#templateFragment = <DocumentFragment>template.content.cloneNode(true);
     this.#buttonElement = <HTMLButtonElement>this.#templateFragment.querySelector('[data-js="button"]');
+    this.#webDisplayTipAmount = <WebDisplayTipAmount>this.#templateFragment.querySelector('[data-js="tip-amount"]');
+    this.#webDisplayTotal = <WebDisplayTotal>this.#templateFragment.querySelector('[data-js="total"]');
     this.handleButtonClick = this.handleButtonClick.bind(this);
-    this.handleButtonState = this.handleButtonState.bind(this);
+    this.handleDataChange = this.handleDataChange.bind(this);
   }
 
-  get bill(): number | undefined {
+  get bill(): string {
     return TipAPI.bill;
   }
 
-  set bill(newBill: number | undefined) {
+  set bill(newBill: string) {
     TipAPI.updateBill(newBill, this);
   }
 
-  get tip(): number | undefined {
+  get tip(): string {
     return TipAPI.tip;
   }
 
-  set tip(newTip: number | undefined) {
+  set tip(newTip: string) {
     TipAPI.updateTip(newTip, this);
   }
 
-  get people(): number | undefined {
+  get people(): string {
     return TipAPI.people;
   }
 
-  set people(newPeople: number | undefined) {
+  set people(newPeople: string) {
     TipAPI.updatePeople(newPeople, this);
   }
 
@@ -45,9 +51,9 @@ class WebDisplay extends HTMLElement {
       this.append(this.#templateFragment);
       this.#initialMount = false;
     }
-    TipAPI.subscribe("bill", this, this.handleButtonState);
-    TipAPI.subscribe("tip", this, this.handleButtonState);
-    TipAPI.subscribe("people", this, this.handleButtonState);
+    TipAPI.subscribe("bill", this, this.handleDataChange);
+    TipAPI.subscribe("tip", this, this.handleDataChange);
+    TipAPI.subscribe("people", this, this.handleDataChange);
     this.handleButtonState();
     this.#buttonElement.addEventListener("click", this.handleButtonClick);
   }
@@ -58,14 +64,17 @@ class WebDisplay extends HTMLElement {
   }
 
   handleButtonClick() {
-    this.bill = undefined;
-    this.tip = undefined;
-    this.people = undefined;
+    this.bill = "";
+    this.tip = "";
+    this.people = "";
     this.handleButtonState();
   }
 
   handleButtonState() {
-    if (!this.bill && !this.tip && !this.people) {
+    const hasNoBill = this.bill.length <= 0;
+    const hasNoTip = this.tip.length <= 0;
+    const hasNoPeople = this.people.length <= 0;
+    if (hasNoBill && hasNoTip && hasNoPeople) {
       if (!this.#buttonElement.hasAttribute("disabled")) {
         this.#buttonElement.setAttribute("disabled", "");
       }
@@ -74,20 +83,19 @@ class WebDisplay extends HTMLElement {
     }
   }
 
-  /*
-  handleDisplayRows() {
-    const bill = this.bill;
-    const people = this.people;
-    if (bill && people) {
-      const tip = this.tip || 0;
-      this.#webDisplayAmount.amount = (bill * tip) / people;
+  handleDataChange() {
+    this.handleButtonState();
+    const bill = this.bill.length > 0 ? Number(this.bill) : 0;
+    const people = this.people.length > 0 ? Number(this.people) : 0;
+    if (bill > 0 && people > 0) {
+      const tip = this.tip.length > 0 ? Number(this.tip) : 0;
+      this.#webDisplayTipAmount.tipAmount = (bill * tip) / people;
       this.#webDisplayTotal.total = ((bill * tip) + bill) / people;
     } else {
-      this.#webDisplayAmount.amount = 0;
+      this.#webDisplayTipAmount.tipAmount = 0;
       this.#webDisplayTotal.total = 0;
     }
   }
-  */
 }
 
 export default WebDisplay;

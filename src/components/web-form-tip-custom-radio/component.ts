@@ -16,10 +16,11 @@ class WebFormTipCustomRadio extends HTMLElement {
   }
 
   get value(): string {
-    return this.#textInputElement.value;
+    return this.#radioInputElement.value;
   }
 
   set value(newValue: string) {
+    this.#radioInputElement.value = newValue;
     this.#textInputElement.value = newValue;
   }
 
@@ -47,12 +48,13 @@ class WebFormTipCustomRadio extends HTMLElement {
   }
 
   handleTextInputChange() {
+    this.#radioInputElement.value = this.#textInputElement.value;
     const hasValue = this.value.length > 0;
     if (hasValue) {
       this.checked = true;
-      const customEvent = new CustomEvent("tip-changed", {
+      const customEvent = new CustomEvent("custom-tip-changed", {
         bubbles: true,
-        detail: { radioElement: this }
+        detail: { value: this.value }
       });
       this.dispatchEvent(customEvent);
     } else {
