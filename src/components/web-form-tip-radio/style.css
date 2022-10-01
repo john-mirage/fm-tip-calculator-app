@@ -62,15 +62,8 @@
 }
 
 .webFormTipRadio__input:focus-visible {
-  outline: none;
-}
-
-.webFormTipRadio__input:focus-visible ~ .webFormTipRadio__background {
-  background-color: var(--color-button-hover);
-}
-
-.webFormTipRadio__input:focus-visible ~ .webFormTipRadio__labelValue {
-  color: var(--color-very-dark-cyan);
+  outline-offset: 0.25rem; /* 4px */
+  outline-color: var(--color-strong-cyan);
 }
 
 @media (hover: hover) {
