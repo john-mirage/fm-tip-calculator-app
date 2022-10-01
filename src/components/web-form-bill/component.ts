@@ -40,6 +40,7 @@ class WebFormBill extends WebTextInput {
 
   handleBillChange() {
     this.inputElement.value = this.bill;
+    this.handleInputValidity();
   }
 
   handleInputKeydown(event: KeyboardEvent) {
@@ -57,12 +58,11 @@ class WebFormBill extends WebTextInput {
       let newValue = this.inputElement.value;
       const valueNeedToBeFormatted = newValue.endsWith(".");
       if (valueNeedToBeFormatted) newValue = newValue.replace(/\.$/, "");
-      if (this.errorElement.textContent !== "") this.errorElement.textContent = "";
       this.bill = newValue;
     } else {
-      if (this.errorElement.textContent !== "Wrong format") this.errorElement.textContent = "Wrong format";
-      this.bill = "";
+      this.bill = "0";
     }
+    this.handleInputValidity();
   }
 }
 

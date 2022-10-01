@@ -1,6 +1,14 @@
 .webTextInput {
+  --outline-color: transparent;
+  --outline-hover-color: var(--color-strong-cyan);
+
   margin-bottom: 2rem; /* 32px */
   display: block;
+}
+
+.webTextInput.webTextInput--error {
+  --outline-color: var(--color-error);
+  --outline-hover-color: var(--color-error);
 }
 
 .webTextInput__title {
@@ -53,6 +61,7 @@
   font-size: 1.5rem; /* 24px */
   font-weight: 700;
   color: var(--color-very-dark-cyan);
+  outline: 0.125rem solid var(--outline-color); /* 1px */
 }
 
 .webTextInput__input::placeholder {
@@ -60,7 +69,7 @@
 }
 
 .webTextInput__input:focus-visible {
-  outline: 0.125rem solid var(--color-strong-cyan); /* 1px */
+  outline-color: var(--outline-hover-color); /* 1px */
 }
 
 .webTextInput__icon {

@@ -30,6 +30,16 @@ class WebTextInput extends HTMLElement {
       this.#initialMount = false;
     }
   }
+
+  handleInputValidity() {
+    if (this.inputElement.validity.valid) {
+      if (this.errorElement.textContent !== "") this.errorElement.textContent = "";
+      if (this.classList.contains("webTextInput--error")) this.classList.remove("webTextInput--error");
+    } else {
+      if (this.errorElement.textContent !== "Wrong format") this.errorElement.textContent = "Wrong format";
+      if (!this.classList.contains("webTextInput--error")) this.classList.add("webTextInput--error");
+    }
+  }
 }
 
 export default WebTextInput;

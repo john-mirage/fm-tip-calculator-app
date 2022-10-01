@@ -44,6 +44,7 @@ class WebFormPeople extends WebTextInput {
 
   handlePeopleChange() {
     this.inputElement.value = this.people;
+    this.handleInputValidity();
   }
 
   handleInputKeydown(event: KeyboardEvent) {
@@ -64,12 +65,11 @@ class WebFormPeople extends WebTextInput {
       this.inputElement.value = newValue;
     }
     if (this.inputElement.validity.valid) {
-      if (this.errorElement.textContent !== "") this.errorElement.textContent = "";
       this.people = newValue;
     } else {
-      if (this.errorElement.textContent !== "Wrong format") this.errorElement.textContent = "Wrong format";
-      this.people = "";
+      this.people = "0";
     }
+    this.handleInputValidity();
   }
 
   handleInputWheel(event: WheelEvent) {
