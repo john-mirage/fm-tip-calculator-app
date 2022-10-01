@@ -44,7 +44,6 @@ class WebFormBill extends WebTextInput {
   }
 
   handleInputKeydown(event: KeyboardEvent) {
-    console.log(event.key)
     if (this.inputElement.value.length <= 0) {
       if (!firstKeyRegex.test(event.key)) {
         event.preventDefault();
