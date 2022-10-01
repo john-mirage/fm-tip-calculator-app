@@ -1,8 +1,8 @@
 import TipAPI from "@api/tip-api";
 import WebTextInput from "@components/web-text-input";
 
-const firstKeyRegex = /^\d$/;
-const defaultKeyRegex = /^\d$|^\.$|^Backspace$|^Delete$|^ArrowLeft$|^ArrowRight$/;
+const firstKeyRegex = /^\d$|^Tab$/;
+const defaultKeyRegex = /^\d$|^\.$|^Backspace$|^Delete$|^ArrowLeft$|^ArrowRight$|^Tab$/;
 
 class WebFormBill extends WebTextInput {
   constructor() {
@@ -44,6 +44,7 @@ class WebFormBill extends WebTextInput {
   }
 
   handleInputKeydown(event: KeyboardEvent) {
+    console.log(event.key)
     if (this.inputElement.value.length <= 0) {
       if (!firstKeyRegex.test(event.key)) {
         event.preventDefault();

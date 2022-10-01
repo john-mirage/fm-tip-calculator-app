@@ -61,6 +61,18 @@
   color: var(--color-very-dark-cyan);
 }
 
+.webFormTipRadio__input:focus-visible {
+  outline: none;
+}
+
+.webFormTipRadio__input:focus-visible ~ .webFormTipRadio__background {
+  background-color: var(--color-button-hover);
+}
+
+.webFormTipRadio__input:focus-visible ~ .webFormTipRadio__labelValue {
+  color: var(--color-very-dark-cyan);
+}
+
 @media (hover: hover) {
   .webFormTipRadio__input:not(:checked):hover ~ .webFormTipRadio__background {
     background-color: var(--color-button-hover);

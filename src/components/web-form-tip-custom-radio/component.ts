@@ -1,7 +1,7 @@
 import "./style.css";
 
-const firstKeyRegex = /^[1-9]$/;
-const defaultKeyRegex = /^\d$|^Backspace$|^Delete$|^ArrowLeft$|^ArrowRight$/;
+const firstKeyRegex = /^[1-9]$|^Tab$/;
+const defaultKeyRegex = /^\d$|^Backspace$|^Delete$|^ArrowLeft$|^ArrowRight$|^Tab$/;
 const startWithZerosRegex = /^0+(?=\d*$)/;
 
 class WebFormTipCustomRadio extends HTMLElement {

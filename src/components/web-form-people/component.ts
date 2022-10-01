@@ -1,8 +1,8 @@
 import TipAPI from "@api/tip-api";
 import WebTextInput from "@components/web-text-input";
 
-const firstKeyRegex = /^[1-9]$/;
-const defaultKeyRegex = /^\d$|^Backspace$|^Delete$|^ArrowLeft$|^ArrowRight$/;
+const firstKeyRegex = /^[1-9]$|^Tab$/;
+const defaultKeyRegex = /^\d$|^Backspace$|^Delete$|^ArrowLeft$|^ArrowRight$|^Tab$/;
 const startWithZerosRegex = /^0+(?=\d*$)/;
 
 class WebFormPeople extends WebTextInput {
